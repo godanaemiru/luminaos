@@ -39,21 +39,21 @@ const SYSTEM_THEME = {
 
 const PROJECTS = [
   {
-    title: "Kernel Fetch",
-    description: "A fast system info script written in Bash, inspired by neofetch.",
-    tech: ["Bash", "Linux", "CLI"],
+    title: "TrueRent UG",
+    description: "A web application designed to provide verified housing listings.",
+    tech: ["Node.js", "MongoDB", "Render"],
     link: "#"
   },
   {
-    title: "Wayland Compositor",
-    description: "A lightweight, experimental Wayland compositor built with wlroots.",
-    tech: ["C", "Wayland", "OpenGL"],
+    title: "Hebrew TTS Reader",
+    description: "An interactive text-to-speech reader featuring synchronized highlighting, phonetic transliteration, and dictionary capabilities.",
+    tech: ["React", "JavaScript"],
     link: "#"
   },
   {
-    title: "Vim Configs",
-    description: "My highly customized, IDE-like Neovim configuration.",
-    tech: ["Lua", "Vimscript"],
+    title: "Veritas Interactive Frontend",
+    description: "A custom frontend interface developed for Veritas Interactive.",
+    tech: ["Vue.js", "JavaScript"],
     link: "#"
   }
 ];
