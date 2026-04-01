@@ -12,28 +12,28 @@ import {
   Monitor, 
   ExternalLink,
   Settings,
-  Search,
-  Clock,
-  Wifi,
-  Volume2,
-  BatteryMedium,
-  ChevronRight,
-  Send,
-  LayoutGrid,
-  Power,
-  Film,
-  FileText,
-  RefreshCw,
-  FolderPlus,
-  FilePlus,
-  List,
-  Star,
-  Palette,
-  Gamepad2,
-  Edit2,
-  Trash2,
-  Eraser,
-  Download
+  Search, 
+  Clock, 
+  Wifi, 
+  Volume2, 
+  BatteryMedium, 
+  ChevronRight, 
+  Send, 
+  LayoutGrid, 
+  Power, 
+  Film, 
+  FileText, 
+  RefreshCw, 
+  FolderPlus, 
+  FilePlus, 
+  List, 
+  Star, 
+  Palette, 
+  Gamepad2, 
+  Edit2, 
+  Trash2, 
+  Eraser, 
+  Download 
 } from 'lucide-react';
 
 // --- Configuration & Content ---
@@ -869,6 +869,7 @@ export default function App() {
   const [contextMenu, setContextMenu] = useState({ show: false, x: 0, y: 0, targetId: null });
   const [renamingAppId, setRenamingAppId] = useState(null);
   const [renameInput, setRenameInput] = useState('');
+  const [hoveredDockIndex, setHoveredDockIndex] = useState(null);
 
   // Persist whenever these change
   useEffect(() => {
@@ -1186,25 +1187,35 @@ export default function App() {
         className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-[100]"
         onContextMenu={e => e.stopPropagation()}
       >
-        <div className="flex items-end gap-2 p-2 rounded-2xl bg-black/30 backdrop-blur-xl border border-white/10 shadow-2xl">
-          {APPS.map((app) => {
+        <div 
+          className="flex items-end gap-2 p-2 rounded-2xl bg-black/30 backdrop-blur-xl border border-white/10 shadow-2xl transition-all duration-300 ease-out h-[64px]"
+          onMouseLeave={() => setHoveredDockIndex(null)}
+        >
+          {APPS.map((app, i) => {
             const isOpen = openApps.includes(app.id);
             const isMinimized = minimizedApps.includes(app.id);
             const isActive = activeApp === app.id && !isMinimized;
             
+            // Calculate scale based on mouse proximity (macOS effect)
+            const distance = hoveredDockIndex !== null ? Math.abs(hoveredDockIndex - i) : null;
+            let scale = 1;
+            if (distance === 0) scale = 1.45;
+            else if (distance === 1) scale = 1.15;
+            
             return (
-              <div key={`dock-${app.id}`} className="relative group flex flex-col items-center">
+              <div key={`dock-${app.id}`} className="relative group flex flex-col items-center origin-bottom transition-transform duration-200 ease-out" style={{ transform: `scale(${scale})` }}>
                 {/* Tooltip */}
-                <span className="absolute -top-10 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-gray-700 shadow-lg">
+                <span className="absolute -top-12 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-gray-700 shadow-lg">
                   {app.title}
                 </span>
                 
                 {/* Dock Icon */}
                 <button
                   onClick={() => toggleApp(app.id)}
+                  onMouseEnter={() => setHoveredDockIndex(i)}
                   className={`
                     w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200
-                    ${isActive ? 'bg-white/20 scale-110 shadow-lg shadow-black/50' : 'bg-white/5 hover:bg-white/15 hover:scale-105'}
+                    ${isActive ? 'bg-white/20 shadow-lg shadow-black/50' : 'bg-white/5 hover:bg-white/15'}
                   `}
                 >
                   <app.icon size={24} className={app.color} />
@@ -1212,7 +1223,7 @@ export default function App() {
 
                 {/* Open Indicator */}
                 {isOpen && (
-                  <div className={`absolute -bottom-1 w-1 h-1 rounded-full ${isActive ? 'bg-blue-400' : 'bg-gray-400'}`} />
+                  <div className={`absolute -bottom-1 w-1 h-1 rounded-full ${isActive ? 'bg-blue-400 scale-125' : 'bg-gray-400'}`} />
                 )}
               </div>
             );
