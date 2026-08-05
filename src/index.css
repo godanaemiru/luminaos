@@ -1,5 +1,45 @@
 @import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@keyframes lumina-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes lumina-window-in {
+  from { opacity: 0; scale: 0.96; }
+  to { opacity: 1; scale: 1; }
+}
+
+@keyframes lumina-menu-in {
+  from { opacity: 0; scale: 0.95; }
+  to { opacity: 1; scale: 1; }
+}
+
+@utility animate-fade-in {
+  animation: lumina-fade-in 200ms ease-out;
+}
+
+@utility animate-window-in {
+  animation: lumina-window-in 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@utility animate-menu-in {
+  animation: lumina-menu-in 120ms ease-out;
+  transform-origin: top left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  overscroll-behavior: none;
+}
